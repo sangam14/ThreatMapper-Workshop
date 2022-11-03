@@ -3,17 +3,282 @@
 
 # Demo1 
 
+
+login to aws account :- console.aws.amazon.com
+
 ## Deploy ThreatMapper Console using Docker Compose on Linux VM using AWS EC2 
+
+
 
 - Create Ubuntu Instance on AWS EC2 
 
+![](./img/step-1.png)
+
+select instance type as per requirements 
+![](./img/step-2.png)
+click on launch instance 
+![](./img/step-3.png)
+hurry ! 
+![](./img/step-4.png)
+acces aws instance using cli 
+![](./img/step-5.png)
+
+![](./img/step-6.png)
+![](./img/step-7.png)
+![](./img/step-8.png)
+![](./img/step-9.png)
+![](./img/step-10.png)
+
+```
+sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+ca-certificates is already the newest version (20211016).
+ca-certificates set to manually installed.
+software-properties-common is already the newest version (0.99.22.3).
+software-properties-common set to manually installed.
+The following additional packages will be installed:
+  libcurl4
+The following NEW packages will be installed:
+  apt-transport-https
+The following packages will be upgraded:
+  curl libcurl4
+2 upgraded, 1 newly installed, 0 to remove and 76 not upgraded.
+Need to get 485 kB of archives.
+After this operation, 169 kB of additional disk space will be used.
+Get:1 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy-updates/universe amd64 apt-transport-https all 2.4.8 [1506 B]
+Get:2 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy-updates/main amd64 curl amd64 7.81.0-1ubuntu1.6 [194 kB]
+Get:3 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy-updates/main amd64 libcurl4 amd64 7.81.0-1ubuntu1.6 [290 kB]
+Fetched 485 kB in 0s (11.0 MB/s)  
+Selecting previously unselected package apt-transport-https.
+(Reading database ... 63926 files and directories currently installed.)
+Preparing to unpack .../apt-transport-https_2.4.8_all.deb ...
+Unpacking apt-transport-https (2.4.8) ...
+Preparing to unpack .../curl_7.81.0-1ubuntu1.6_amd64.deb ...
+Unpacking curl (7.81.0-1ubuntu1.6) over (7.81.0-1ubuntu1.4) ...
+Preparing to unpack .../libcurl4_7.81.0-1ubuntu1.6_amd64.deb ...
+Unpacking libcurl4:amd64 (7.81.0-1ubuntu1.6) over (7.81.0-1ubuntu1.4) ...
+Setting up apt-transport-https (2.4.8) ...
+Setting up libcurl4:amd64 (7.81.0-1ubuntu1.6) ...
+Setting up curl (7.81.0-1ubuntu1.6) ...
+Processing triggers for man-db (2.10.2-1) ...
+Processing triggers for libc-bin (2.35-0ubuntu3.1) ...
+Scanning processes...                                                                                                                       
+Scanning linux images...                                                                                                                    
+
+Running kernel seems to be up-to-date.
+
+```
+
+# Install docker 
+
+```
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
+apt-cache policy docker-ce
+sudo apt install -y docker-ce
+Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8)).
+OK
+Repository: 'deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable'
+Description:
+Archive for codename: focal components: stable
+More info: https://download.docker.com/linux/ubuntu
+Adding repository.
+Press [ENTER] to continue or Ctrl-c to cancel.
+Found existing deb entry in /etc/apt/sources.list.d/archive_uri-https_download_docker_com_linux_ubuntu-jammy.list
+Adding deb entry to /etc/apt/sources.list.d/archive_uri-https_download_docker_com_linux_ubuntu-jammy.list
+Found existing deb-src entry in /etc/apt/sources.list.d/archive_uri-https_download_docker_com_linux_ubuntu-jammy.list
+Adding disabled deb-src entry to /etc/apt/sources.list.d/archive_uri-https_download_docker_com_linux_ubuntu-jammy.list
+Hit:1 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy InRelease
+Hit:2 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy-updates InRelease                            
+Hit:3 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy-backports InRelease                          
+Hit:4 https://download.docker.com/linux/ubuntu focal InRelease                                          
+Hit:5 http://security.ubuntu.com/ubuntu jammy-security InRelease                                        
+Reading package lists... Done
+W: https://download.docker.com/linux/ubuntu/dists/focal/InRelease: Key is stored in legacy trusted.gpg keyring (/etc/apt/trusted.gpg), see the DEPRECATION section in apt-key(8) for details.
+docker-ce:
+  Installed: 5:20.10.21~3-0~ubuntu-focal
+  Candidate: 5:20.10.21~3-0~ubuntu-focal
+  Version table:
+ *** 5:20.10.21~3-0~ubuntu-focal 500
+        500 https://download.docker.com/linux/ubuntu focal/stable amd64 Packages
+        100 /var/lib/dpkg/status
+     5:20.10.20~3-0~ubuntu-focal 500
+        500 https://download.docker.com/linux/ubuntu focal/stable amd64 Packages
+     5:20.10.19~3-0~ubuntu-focal 500
+        500 https://download.docker.com/linux/ubuntu focal/stable amd64 Packages
+     5:20.10.18~3-0~ubuntu-focal 500
+        500 https://download.docker.com/linux/ubuntu focal/stable amd64 Packages
+     5:20.10.17~3-0~ubuntu-focal 500
+        500 https://download.docker.com/linux/ubuntu focal/stable amd64 Packages
+     5:20.10.16~3-0~ubuntu-focal 500
+        500 https://download.docker.com/linux/ubuntu focal/stable amd64 Packages
+     5:20.10.15~3-0~ubuntu-focal 500
+        500 https://download.docker.com/linux/ubuntu focal/stable amd64 Packages
+     5:20.10.14~3-0~ubuntu-focal 500
+        500 https://download.docker.com/linux/ubuntu focal/stable amd64 Packages
+     5:20.10.13~3-0~ubuntu-focal 500
+        500 https://download.docker.com/linux/ubuntu focal/stable amd64 Packages
+     5:20.10.12~3-0~ubuntu-focal 500
+        500 https://download.docker.com/linux/ubuntu focal/stable amd64 Packages
+     5:20.10.11~3-0~ubuntu-focal 500
+        500 https://download.docker.com/linux/ubuntu focal/stable amd64 Packages
+     5:20.10.10~3-0~ubuntu-focal 500
+        500 https://download.docker.com/linux/ubuntu focal/stable amd64 Packages
+     5:20.10.9~3-0~ubuntu-focal 500
+        500 https://download.docker.com/linux/ubuntu focal/stable amd64 Packages
+     5:20.10.8~3-0~ubuntu-focal 500
+        500 https://download.docker.com/linux/ubuntu focal/stable amd64 Packages
+     5:20.10.7~3-0~ubuntu-focal 500
+        500 https://download.docker.com/linux/ubuntu focal/stable amd64 Packages
+     5:20.10.6~3-0~ubuntu-focal 500
+        500 https://download.docker.com/linux/ubuntu focal/stable amd64 Packages
+     5:20.10.5~3-0~ubuntu-focal 500
+        500 https://download.docker.com/linux/ubuntu focal/stable amd64 Packages
+     5:20.10.4~3-0~ubuntu-focal 500
+        500 https://download.docker.com/linux/ubuntu focal/stable amd64 Packages
+     5:20.10.3~3-0~ubuntu-focal 500
+        500 https://download.docker.com/linux/ubuntu focal/stable amd64 Packages
+     5:20.10.2~3-0~ubuntu-focal 500
+        500 https://download.docker.com/linux/ubuntu focal/stable amd64 Packages
+     5:20.10.1~3-0~ubuntu-focal 500
+        500 https://download.docker.com/linux/ubuntu focal/stable amd64 Packages
+     5:20.10.0~3-0~ubuntu-focal 500
+        500 https://download.docker.com/linux/ubuntu focal/stable amd64 Packages
+     5:19.03.15~3-0~ubuntu-focal 500
+        500 https://download.docker.com/linux/ubuntu focal/stable amd64 Packages
+     5:19.03.14~3-0~ubuntu-focal 500
+        500 https://download.docker.com/linux/ubuntu focal/stable amd64 Packages
+     5:19.03.13~3-0~ubuntu-focal 500
+        500 https://download.docker.com/linux/ubuntu focal/stable amd64 Packages
+     5:19.03.12~3-0~ubuntu-focal 500
+        500 https://download.docker.com/linux/ubuntu focal/stable amd64 Packages
+     5:19.03.11~3-0~ubuntu-focal 500
+        500 https://download.docker.com/linux/ubuntu focal/stable amd64 Packages
+     5:19.03.10~3-0~ubuntu-focal 500
+        500 https://download.docker.com/linux/ubuntu focal/stable amd64 Packages
+     5:19.03.9~3-0~ubuntu-focal 500
+        500 https://download.docker.com/linux/ubuntu focal/stable amd64 Packages
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
 
 
+```
+
+# verify docker is installed or not 
+
+```
+docker 
+
+Usage:  docker [OPTIONS] COMMAND
+
+A self-sufficient runtime for containers
+
+Options:
+      --config string      Location of client config files (default "/home/ubuntu/.docker")
+  -c, --context string     Name of the context to use to connect to the daemon (overrides DOCKER_HOST env var and default context set
+                           with "docker context use")
+  -D, --debug              Enable debug mode
+  -H, --host list          Daemon socket(s) to connect to
+  -l, --log-level string   Set the logging level ("debug"|"info"|"warn"|"error"|"fatal") (default "info")
+      --tls                Use TLS; implied by --tlsverify
+      --tlscacert string   Trust certs signed only by this CA (default "/home/ubuntu/.docker/ca.pem")
+      --tlscert string     Path to TLS certificate file (default "/home/ubuntu/.docker/cert.pem")
+      --tlskey string      Path to TLS key file (default "/home/ubuntu/.docker/key.pem")
+      --tlsverify          Use TLS and verify the remote
+  -v, --version            Print version information and quit
+
+Management Commands:
+  app*        Docker App (Docker Inc., v0.9.1-beta3)
+  builder     Manage builds
+  buildx*     Docker Buildx (Docker Inc., v0.9.1-docker)
+  config      Manage Docker configs
+  container   Manage containers
+  context     Manage contexts
+  image       Manage images
+  manifest    Manage Docker image manifests and manifest lists
+  network     Manage networks
+  node        Manage Swarm nodes
+  plugin      Manage plugins
+  scan*       Docker Scan (Docker Inc., v0.21.0)
+  secret      Manage Docker secrets
+  service     Manage services
+  stack       Manage Docker stacks
+  swarm       Manage Swarm
+  system      Manage Docker
+  trust       Manage trust on Docker images
+  volume      Manage volumes
+
+Commands:
+  attach      Attach local standard input, output, and error streams to a running container
+  build       Build an image from a Dockerfile
+  commit      Create a new image from a container's changes
+  cp          Copy files/folders between a container and the local filesystem
+  create      Create a new container
+  diff        Inspect changes to files or directories on a container's filesystem
+  events      Get real time events from the server
+  exec        Run a command in a running container
+  export      Export a container's filesystem as a tar archive
+  history     Show the history of an image
+  images      List images
+  import      Import the contents from a tarball to create a filesystem image
+  info        Display system-wide information
+  inspect     Return low-level information on Docker objects
+  kill        Kill one or more running containers
+  load        Load an image from a tar archive or STDIN
+  login       Log in to a Docker registry
+  logout      Log out from a Docker registry
+  logs        Fetch the logs of a container
+  pause       Pause all processes within one or more containers
+  port        List port mappings or a specific mapping for the container
+  ps          List containers
+  pull        Pull an image or a repository from a registry
+  push        Push an image or a repository to a registry
+  rename      Rename a container
+  restart     Restart one or more containers
+  rm          Remove one or more containers
+  rmi         Remove one or more images
+  run         Run a command in a new container
+  save        Save one or more images to a tar archive (streamed to STDOUT by default)
+  search      Search the Docker Hub for images
+  start       Start one or more stopped containers
+  stats       Display a live stream of container(s) resource usage statistics
+  stop        Stop one or more running containers
+  tag         Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
+  top         Display the running processes of a container
+  unpause     Unpause all processes within one or more containers
+  update      Update configuration of one or more containers
+  version     Show the Docker version information
+  wait        Block until one or more containers stop, then print their exit codes
+
+Run 'docker COMMAND --help' for more information on a command.
 
 
+```
 
 
+# install docker compose 
 
+```
+sudo sysctl -w vm.max_map_count=262144 
+sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
+sudo mv /usr/local/bin/docker-compose /usr/bin/docker-compose
+sudo chmod +x /usr/bin/docker-compose
+docker-compose --version
+vm.max_map_count = 262144
+
+```
+
+# docker compose up 
+
+```
+ sudo docker-compose -f docker-compose.yml up --detach
+```
+
+
+# pulling all docker images required for management console 
 
 ```
 [+] Running 132/133al-router Pulled                                                                                                    5.1s
@@ -267,3 +532,35 @@
  ⠿ Container deepfence-api                   Started                                                                                   3.4s
  ⠿ Container deepfence-backend               Started                                                                                   3.1s
  ```
+
+## check all runing docker containers 
+
+```
+
+docker ps
+CONTAINER ID   IMAGE                                                 COMMAND                  CREATED              STATUS              PORTS                                                                      NAMES
+4514ee6713ac   deepfenceio/deepfence_api_ce:1.4.1                    "/app/code/dockerify…"   About a minute ago   Up About a minute                                                                              deepfence-api
+1ba3ffed69da   deepfenceio/deepfence_api_ce:1.4.1                    "/app/code/dockerify…"   About a minute ago   Up About a minute                                                                              deepfence-backend
+8bab0ec9f33c   deepfenceio/deepfence_api_ce:1.4.1                    "/app/code/dockerify…"   About a minute ago   Up About a minute                                                                              deepfence-celery
+22656ac2f42e   deepfenceio/deepfence_fetcher_ce:1.4.1                "/usr/bin/start_fetc…"   About a minute ago   Up About a minute   8006/tcp                                                                   deepfence-fetcher
+53e90c2fb2ee   deepfenceio/deepfence_ui_ce:1.4.1                     "/home/deepfence/ent…"   About a minute ago   Up About a minute                                                                              deepfence-ui
+ef95a5d836af   deepfenceio/deepfence_redis_ce:1.4.1                  "/usr/local/bin/star…"   About a minute ago   Up About a minute   6379/tcp                                                                   deepfence-redis
+41861a1a902d   deepfenceio/deepfence_elastic_ce:1.4.1                "/usr/bin/startEs.sh…"   About a minute ago   Up About a minute   127.0.0.1:9200->9200/tcp, 127.0.0.1:9300->9300/tcp                         deepfence-es-master
+d7f746d048f1   deepfenceio/deepfence_router_ce:1.4.1                 "docker-entrypoint.s…"   About a minute ago   Up About a minute   0.0.0.0:80->80/tcp, :::80->80/tcp, 0.0.0.0:443->443/tcp, :::443->443/tcp   deepfence-router
+c3e6524325b1   deepfenceio/deepfence_vulnerability_mapper_ce:1.4.1   "/entrypoint.sh"         About a minute ago   Up About a minute   8001/tcp                                                                   deepfence-vulnerability-mapper
+4331c9eeb50f   deepfenceio/deepfence_router_ce:1.4.1                 "docker-entrypoint.s…"   About a minute ago   Up About a minute   127.0.0.1:8443->443/tcp                                                    deepfence-internal-router
+16fae4515f45   deepfenceio/deepfence_diagnosis_ce:1.4.1              "/home/diagnosis"        About a minute ago   Up About a minute                                                                              deepfence-diagnosis
+515a139b6c8f   deepfenceio/deepfence_agent_ce:1.4.1                  "/usr/local/bin/star…"   About a minute ago   Up About a minute                                                                              deepfence-console-agent
+10ac5757f982   deepfenceio/deepfence_postgres_ce:1.4.1               "docker-entrypoint.s…"   About a minute ago   Up About a minute   5432/tcp                                                                   deepfence-postgres
+50621d650d96   deepfenceio/deepfence_package_scanner_ce:1.4.1        "/usr/local/bin/pack…"   About a minute ago   Up About a minute   8002/tcp, 8005/tcp                                                         deepfence-package-scanner
+0e96086bc3d0   deepfenceio/deepfence_discovery_ce:1.4.1              "/home/deepfence/ent…"   About a minute ago   Up About a minute   127.0.0.1:8004->8004/tcp                                                   deepfence-topology
+bda5019a336a   deepfenceio/deepfence_secret_scanner_ce:1.4.1         "/home/deepfence/usr…"   About a minute ago   Up About a minute                                                                              deepfence-secret-scanner
+
+
+
+
+```
+
+# access threatmapper console using aws instance public ip 
+
+
