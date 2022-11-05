@@ -563,4 +563,11 @@ bda5019a336a   deepfenceio/deepfence_secret_scanner_ce:1.4.1         "/home/deep
 
 # access threatmapper console using aws instance public ip 
 
+https://54.152.156.120/
+
+
+
+
+
+
 
