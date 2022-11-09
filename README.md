@@ -563,28 +563,620 @@ bda5019a336a   deepfenceio/deepfence_secret_scanner_ce:1.4.1         "/home/deep
 
 # access threatmapper console using aws instance public ip 
 
-https://54.152.156.120/
+
+Demo 2 
 
 
 
+# To create your Amazon EKS cluster role in the IAM console
 
-# Demo3
+Open the IAM console at https://console.aws.amazon.com/iam/.
+Choose Roles, then Create role.
+Under Trusted entity type, select AWS service.
+From the Use cases for other AWS services dropdown list, choose EKS.
+Choose EKS - Cluster for your use case, and then choose Next.
+On the Add permissions tab, choose Next.
+For Role name, enter a unique name for your role, such as eksClusterRole.
+For Description, enter descriptive text such as Amazon EKS - Cluster role.
+Choose Create role.
+
+## install Kubectl 
+
+```
+url -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 42.9M  100 42.9M    0     0  19.4M      0  0:00:02  0:00:02 --:--:-- 19.4M
+ubuntu@ip-172-31-1-211:~$ chmod +x ./kubectl
+ubuntu@ip-172-31-1-211:~$ sudo mv ./kubectl /usr/local/bin/kubectl
+ubuntu@ip-172-31-1-211:~$ sudo apt-get update && \
+    sudo apt-get install docker.io -y
+Hit:1 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy InRelease
+Get:2 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy-updates InRelease [114 kB]
+Get:3 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy-backports InRelease [99.8 kB]
+Get:4 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy/universe amd64 Packages [14.1 MB]
+Get:5 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy/universe Translation-en [5652 kB]
+Get:6 http://security.ubuntu.com/ubuntu jammy-security InRelease [110 kB]            
+Get:7 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy/universe amd64 c-n-f Metadata [286 kB]
+Get:8 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy/multiverse amd64 Packages [217 kB]
+Get:9 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy/multiverse Translation-en [112 kB]
+Get:10 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy/multiverse amd64 c-n-f Metadata [8372 B]
+Get:11 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy-updates/main amd64 Packages [695 kB]
+Get:12 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy-updates/main Translation-en [159 kB]
+Get:13 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy-updates/main amd64 c-n-f Metadata [10.8 kB]
+Get:14 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy-updates/restricted amd64 Packages [410 kB]
+Get:15 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy-updates/restricted Translation-en [63.1 kB]
+Get:16 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy-updates/restricted amd64 c-n-f Metadata [544 B]
+Get:17 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy-updates/universe amd64 Packages [743 kB]
+Get:18 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy-updates/universe Translation-en [122 kB]
+Get:19 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy-updates/universe amd64 c-n-f Metadata [4404 B]
+Get:20 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy-updates/multiverse amd64 Packages [13.7 kB]
+Get:21 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy-updates/multiverse Translation-en [4228 B]
+Get:22 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy-updates/multiverse amd64 c-n-f Metadata [420 B]
+Get:23 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy-backports/main amd64 Packages [3008 B]
+Get:24 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy-backports/main Translation-en [1432 B]
+Get:25 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy-backports/main amd64 c-n-f Metadata [272 B]
+Get:26 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy-backports/restricted amd64 c-n-f Metadata [116 B]
+Get:27 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy-backports/universe amd64 Packages [6752 B]
+Get:28 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy-backports/universe Translation-en [9360 B]
+Get:29 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy-backports/universe amd64 c-n-f Metadata [356 B]
+Get:30 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy-backports/multiverse amd64 c-n-f Metadata [116 B]
+Get:31 http://security.ubuntu.com/ubuntu jammy-security/main amd64 Packages [461 kB]     
+Get:32 http://security.ubuntu.com/ubuntu jammy-security/main Translation-en [101 kB]
+Get:33 http://security.ubuntu.com/ubuntu jammy-security/restricted amd64 Packages [372 kB]                
+Get:34 http://security.ubuntu.com/ubuntu jammy-security/restricted Translation-en [57.4 kB]               
+Get:35 http://security.ubuntu.com/ubuntu jammy-security/universe amd64 Packages [602 kB]                  
+Get:36 http://security.ubuntu.com/ubuntu jammy-security/universe Translation-en [76.6 kB]                 
+Get:37 http://security.ubuntu.com/ubuntu jammy-security/universe amd64 c-n-f Metadata [2408 B]            
+Get:38 http://security.ubuntu.com/ubuntu jammy-security/multiverse amd64 Packages [4192 B]                
+Get:39 http://security.ubuntu.com/ubuntu jammy-security/multiverse Translation-en [900 B]                 
+Get:40 http://security.ubuntu.com/ubuntu jammy-security/multiverse amd64 c-n-f Metadata [228 B]           
+Fetched 24.6 MB in 18s (1357 kB/s)                                                                        
+Reading package lists... Done
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+The following additional packages will be installed:
+  bridge-utils containerd dns-root-data dnsmasq-base pigz runc ubuntu-fan
+Suggested packages:
+  ifupdown aufs-tools cgroupfs-mount | cgroup-lite debootstrap docker-doc rinse zfs-fuse | zfsutils
+The following NEW packages will be installed:
+  bridge-utils containerd dns-root-data dnsmasq-base docker.io pigz runc ubuntu-fan
+0 upgraded, 8 newly installed, 0 to remove and 78 not upgraded.
+Need to get 65.6 MB of archives.
+After this operation, 283 MB of additional disk space will be used.
+Get:1 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy/universe amd64 pigz amd64 2.6-1 [63.6 kB]
+Get:2 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy/main amd64 bridge-utils amd64 1.7-1ubuntu3 [34.4 kB]
+Get:3 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy/main amd64 runc amd64 1.1.0-0ubuntu1 [4087 kB]
+Get:4 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy/main amd64 containerd amd64 1.5.9-0ubuntu3 [27.0 MB]
+Get:5 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy/main amd64 dns-root-data all 2021011101 [5256 B]
+Get:6 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy-updates/main amd64 dnsmasq-base amd64 2.86-1.1ubuntu0.1 [354 kB]
+Get:7 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy/universe amd64 docker.io amd64 20.10.12-0ubuntu4 [34.0 MB]
+Get:8 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy/universe amd64 ubuntu-fan all 0.12.16 [35.2 kB]
+Fetched 65.6 MB in 1s (44.5 MB/s)      
+Preconfiguring packages ...
+Selecting previously unselected package pigz.
+(Reading database ... 63663 files and directories currently installed.)
+Preparing to unpack .../0-pigz_2.6-1_amd64.deb ...
+Unpacking pigz (2.6-1) ...
+Selecting previously unselected package bridge-utils.
+Preparing to unpack .../1-bridge-utils_1.7-1ubuntu3_amd64.deb ...
+Unpacking bridge-utils (1.7-1ubuntu3) ...
+Selecting previously unselected package runc.
+Preparing to unpack .../2-runc_1.1.0-0ubuntu1_amd64.deb ...
+Unpacking runc (1.1.0-0ubuntu1) ...
+Selecting previously unselected package containerd.
+Preparing to unpack .../3-containerd_1.5.9-0ubuntu3_amd64.deb ...
+Unpacking containerd (1.5.9-0ubuntu3) ...
+Selecting previously unselected package dns-root-data.
+Preparing to unpack .../4-dns-root-data_2021011101_all.deb ...
+Unpacking dns-root-data (2021011101) ...
+Selecting previously unselected package dnsmasq-base.
+Preparing to unpack .../5-dnsmasq-base_2.86-1.1ubuntu0.1_amd64.deb ...
+Unpacking dnsmasq-base (2.86-1.1ubuntu0.1) ...
+Selecting previously unselected package docker.io.
+Preparing to unpack .../6-docker.io_20.10.12-0ubuntu4_amd64.deb ...
+Unpacking docker.io (20.10.12-0ubuntu4) ...
+Selecting previously unselected package ubuntu-fan.
+Preparing to unpack .../7-ubuntu-fan_0.12.16_all.deb ...
+Unpacking ubuntu-fan (0.12.16) ...
+Setting up dnsmasq-base (2.86-1.1ubuntu0.1) ...
+Setting up runc (1.1.0-0ubuntu1) ...
+Setting up dns-root-data (2021011101) ...
+Setting up bridge-utils (1.7-1ubuntu3) ...
+Setting up pigz (2.6-1) ...
+Setting up containerd (1.5.9-0ubuntu3) ...
+Created symlink /etc/systemd/system/multi-user.target.wants/containerd.service → /lib/systemd/system/containerd.service.
+Setting up ubuntu-fan (0.12.16) ...
+Created symlink /etc/systemd/system/multi-user.target.wants/ubuntu-fan.service → /lib/systemd/system/ubuntu-fan.service.
+Setting up docker.io (20.10.12-0ubuntu4) ...
+Adding group `docker' (GID 121) ...
+Done.
+Created symlink /etc/systemd/system/multi-user.target.wants/docker.service → /lib/systemd/system/docker.service.
+Created symlink /etc/systemd/system/sockets.target.wants/docker.socket → /lib/systemd/system/docker.socket.
+Processing triggers for dbus (1.12.20-2ubuntu4) ...
+Processing triggers for man-db (2.10.2-1) ...
+Scanning processes...                                                                                      
+Scanning linux images...                                                                                   
+
+Running kernel seems to be up-to-date.
+
+No services need to be restarted.
+
+No containers need to be restarted.
+
+No user sessions are running outdated binaries.
 
 
-login to aws account :- console.aws.amazon.com
 
-## Deploy ThreatMapper Helm chart to your Minikube cluster 
+```
 
-
-
+## install minikube 
 
 
+```
+curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && chmod +x minikube && sudo mv minikube /usr/local/bin/
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 73.0M  100 73.0M    0     0  79.5M      0 --:--:-- --:--:-- --:--:-- 79.5M
+ubuntu@ip-172-31-1-211:~$ minikube version
+minikube version: v1.27.1
+commit: fe869b5d4da11ba318eb84a3ac00f336411de7ba
 
-- Create Ubuntu Instance on AWS EC2 
+
+```
+## start minikube 
+
+```
+
+sudo usermod -aG docker $USER && newgrp docker
+ubuntu@ip-172-31-1-211:~$ minikube start
+😄  minikube v1.27.1 on Ubuntu 22.04 (xen/amd64)
+✨  Automatically selected the docker driver. Other choices: none, ssh
+📌  Using Docker driver with root privileges
+👍  Starting control plane node minikube in cluster minikube
+🚜  Pulling base image ...
+💾  Downloading Kubernetes v1.25.2 preload ...
+    > preloaded-images-k8s-v18-v1...:  385.41 MiB / 385.41 MiB  100.00% 62.28 M
+    > gcr.io/k8s-minikube/kicbase:  387.11 MiB / 387.11 MiB  100.00% 44.77 MiB 
+    > gcr.io/k8s-minikube/kicbase:  0 B [_______________________] ?% ? p/s 5.8s
+🔥  Creating docker container (CPUs=2, Memory=2200MB) ...
+🐳  Preparing Kubernetes v1.25.2 on Docker 20.10.18 ...
+    ▪ Generating certificates and keys ...
+    ▪ Booting up control plane ...
+    ▪ Configuring RBAC rules ...
+🔎  Verifying Kubernetes components...
+    ▪ Using image gcr.io/k8s-minikube/storage-provisioner:v5
+🌟  Enabled addons: storage-provisioner, default-storageclass
+🏄  Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
+ubuntu@ip-172-31-1-211:~$ minikube
+minikube provisions and manages local Kubernetes clusters optimized for development workflows.
+
+Basic Commands:
+  start            Starts a local Kubernetes cluster
+  status           Gets the status of a local Kubernetes cluster
+  stop             Stops a running local Kubernetes cluster
+  delete           Deletes a local Kubernetes cluster
+  dashboard        Access the Kubernetes dashboard running within the minikube cluster
+  pause            pause Kubernetes
+  unpause          unpause Kubernetes
+
+Images Commands:
+  docker-env       Provides instructions to point your terminal's docker-cli to the Docker Engine
+inside minikube. (Useful for building docker images directly inside minikube)
+  podman-env       Configure environment to use minikube's Podman service
+  cache            Manage cache for images
+  image            Manage images
+
+Configuration and Management Commands:
+  addons           Enable or disable a minikube addon
+  config           Modify persistent configuration values
+  profile          Get or list the current profiles (clusters)
+  update-context   Update kubeconfig in case of an IP or port change
+
+Networking and Connectivity Commands:
+  service          Returns a URL to connect to a service
+  tunnel           Connect to LoadBalancer services
+
+Advanced Commands:
+  mount            Mounts the specified directory into minikube
+  ssh              Log into the minikube environment (for debugging)
+  kubectl          Run a kubectl binary matching the cluster version
+  node             Add, remove, or list additional nodes
+  cp               Copy the specified file into minikube
+
+Troubleshooting Commands:
+  ssh-key          Retrieve the ssh identity key path of the specified node
+  ssh-host         Retrieve the ssh host key of the specified node
+  ip               Retrieves the IP address of the specified node
+  logs             Returns logs to debug a local Kubernetes cluster
+  update-check     Print current and latest version number
+  version          Print the version of minikube
+  options          Show a list of global command-line options (applies to all commands).
+
+Other Commands:
+  completion       Generate command completion for a shell
 
 
 
+```
 
 
+## install helm chart 
 
+```
+
+ubuntu@ip-172-31-1-211:~$ curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
+sudo apt-get install apt-transport-https --yes
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
+sudo apt-get update
+sudo apt-get install helm
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  1700  100  1700    0     0  12006      0 --:--:-- --:--:-- --:--:-- 11971
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+The following NEW packages will be installed:
+  apt-transport-https
+0 upgraded, 1 newly installed, 0 to remove and 78 not upgraded.
+Need to get 1506 B of archives.
+After this operation, 169 kB of additional disk space will be used.
+Get:1 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy-updates/universe amd64 apt-transport-https all 2.4.8 [1506 B]
+Fetched 1506 B in 0s (80.3 kB/s)              
+Selecting previously unselected package apt-transport-https.
+(Reading database ... 64017 files and directories currently installed.)
+Preparing to unpack .../apt-transport-https_2.4.8_all.deb ...
+Unpacking apt-transport-https (2.4.8) ...
+Setting up apt-transport-https (2.4.8) ...
+Scanning processes...                                                                                      
+Scanning linux images...                                                                                   
+
+Running kernel seems to be up-to-date.
+
+No services need to be restarted.
+
+No containers need to be restarted.
+
+No user sessions are running outdated binaries.
+
+No VM guests are running outdated hypervisor (qemu) binaries on this host.
+deb [arch=amd64 signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main
+Hit:1 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy InRelease
+Hit:2 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy-updates InRelease
+Hit:3 http://us-east-1.ec2.archive.ubuntu.com/ubuntu jammy-backports InRelease
+Hit:4 http://security.ubuntu.com/ubuntu jammy-security InRelease
+Get:5 https://baltocdn.com/helm/stable/debian all InRelease [7652 B]
+Get:6 https://baltocdn.com/helm/stable/debian all/main amd64 Packages [3012 B]
+Fetched 10.7 kB in 0s (26.0 kB/s)   
+Reading package lists... Done
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+The following NEW packages will be installed:
+  helm
+0 upgraded, 1 newly installed, 0 to remove and 78 not upgraded.
+Need to get 14.5 MB of archives.
+After this operation, 45.1 MB of additional disk space will be used.
+Get:1 https://baltocdn.com/helm/stable/debian all/main amd64 helm amd64 3.10.1-1 [14.5 MB]
+Fetched 14.5 MB in 0s (68.6 MB/s)
+Selecting previously unselected package helm.
+(Reading database ... 64021 files and directories currently installed.)
+Preparing to unpack .../helm_3.10.1-1_amd64.deb ...
+Unpacking helm (3.10.1-1) ...
+Setting up helm (3.10.1-1) ...
+Processing triggers for man-db (2.10.2-1) ...
+Scanning processes...                                                                                      
+Scanning linux images...                                                                                   
+
+Running kernel seems to be up-to-date.
+
+No services need to be restarted.
+
+No containers need to be restarted.
+
+No user sessions are running outdated binaries.
+
+No VM guests are running outdated hypervisor (qemu) binaries on this host.
+ubuntu@ip-172-31-1-211:~$ helm
+The Kubernetes package manager
+
+Common actions for Helm:
+
+- helm search:    search for charts
+- helm pull:      download a chart to your local directory to view
+- helm install:   upload the chart to Kubernetes
+- helm list:      list releases of charts
+
+Environment variables:
+
+| Name                               | Description                                                                                       |
+|------------------------------------|---------------------------------------------------------------------------------------------------|
+| $HELM_CACHE_HOME                   | set an alternative location for storing cached files.                                             |
+| $HELM_CONFIG_HOME                  | set an alternative location for storing Helm configuration.                                       |
+| $HELM_DATA_HOME                    | set an alternative location for storing Helm data.                                                |
+| $HELM_DEBUG                        | indicate whether or not Helm is running in Debug mode                                             |
+| $HELM_DRIVER                       | set the backend storage driver. Values are: configmap, secret, memory, sql.                       |
+| $HELM_DRIVER_SQL_CONNECTION_STRING | set the connection string the SQL storage driver should use.                                      |
+| $HELM_MAX_HISTORY                  | set the maximum number of helm release history.                                                   |
+| $HELM_NAMESPACE                    | set the namespace used for the helm operations.                                                   |
+| $HELM_NO_PLUGINS                   | disable plugins. Set HELM_NO_PLUGINS=1 to disable plugins.                                        |
+| $HELM_PLUGINS                      | set the path to the plugins directory                                                             |
+| $HELM_REGISTRY_CONFIG              | set the path to the registry config file.                                                         |
+| $HELM_REPOSITORY_CACHE             | set the path to the repository cache directory                                                    |
+| $HELM_REPOSITORY_CONFIG            | set the path to the repositories file.                                                            |
+| $KUBECONFIG                        | set an alternative Kubernetes configuration file (default "~/.kube/config")                       |
+| $HELM_KUBEAPISERVER                | set the Kubernetes API Server Endpoint for authentication                                         |
+| $HELM_KUBECAFILE                   | set the Kubernetes certificate authority file.                                                    |
+| $HELM_KUBEASGROUPS                 | set the Groups to use for impersonation using a comma-separated list.                             |
+| $HELM_KUBEASUSER                   | set the Username to impersonate for the operation.                                                |
+| $HELM_KUBECONTEXT                  | set the name of the kubeconfig context.                                                           |
+| $HELM_KUBETOKEN                    | set the Bearer KubeToken used for authentication.                                                 |
+| $HELM_KUBEINSECURE_SKIP_TLS_VERIFY | indicate if the Kubernetes API server's certificate validation should be skipped (insecure)       |
+| $HELM_KUBETLS_SERVER_NAME          | set the server name used to validate the Kubernetes API server certificate                        |
+| $HELM_BURST_LIMIT                  | set the default burst limit in the case the server contains many CRDs (default 100, -1 to disable)|
+
+Helm stores cache, configuration, and data based on the following configuration order:
+
+- If a HELM_*_HOME environment variable is set, it will be used
+- Otherwise, on systems supporting the XDG base directory specification, the XDG variables will be used
+- When no other location is set a default location will be used based on the operating system
+
+By default, the default directories depend on the Operating System. The defaults are listed below:
+
+| Operating System | Cache Path                | Configuration Path             | Data Path               |
+|------------------|---------------------------|--------------------------------|-------------------------|
+| Linux            | $HOME/.cache/helm         | $HOME/.config/helm             | $HOME/.local/share/helm |
+| macOS            | $HOME/Library/Caches/helm | $HOME/Library/Preferences/helm | $HOME/Library/helm      |
+| Windows          | %TEMP%\helm               | %APPDATA%\helm                 | %APPDATA%\helm          |
+
+Usage:
+  helm [command]
+
+Available Commands:
+  completion  generate autocompletion scripts for the specified shell
+  create      create a new chart with the given name
+  dependency  manage a chart's dependencies
+  env         helm client environment information
+  get         download extended information of a named release
+  help        Help about any command
+  history     fetch release history
+  install     install a chart
+  lint        examine a chart for possible issues
+  list        list releases
+  package     package a chart directory into a chart archive
+  plugin      install, list, or uninstall Helm plugins
+  pull        download a chart from a repository and (optionally) unpack it in local directory
+  push        push a chart to remote
+  registry    login to or logout from a registry
+  repo        add, list, remove, update, and index chart repositories
+  rollback    roll back a release to a previous revision
+  search      search for a keyword in charts
+  show        show information of a chart
+  status      display the status of the named release
+  template    locally render templates
+  test        run tests for a release
+  uninstall   uninstall a release
+  upgrade     upgrade a release
+  verify      verify that a chart at the given path has been signed and is valid
+  version     print the client version information
+
+Flags:
+      --burst-limit int                 client-side default throttling limit (default 100)
+      --debug                           enable verbose output
+  -h, --help                            help for helm
+      --kube-apiserver string           the address and the port for the Kubernetes API server
+      --kube-as-group stringArray       group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+      --kube-as-user string             username to impersonate for the operation
+      --kube-ca-file string             the certificate authority file for the Kubernetes API server connection
+      --kube-context string             name of the kubeconfig context to use
+      --kube-insecure-skip-tls-verify   if true, the Kubernetes API server's certificate will not be checked for validity. This will make your HTTPS connections insecure
+      --kube-tls-server-name string     server name to use for Kubernetes API server certificate validation. If it is not provided, the hostname used to contact the server is used
+      --kube-token string               bearer token used for authentication
+      --kubeconfig string               path to the kubeconfig file
+  -n, --namespace string                namespace scope for this request
+      --registry-config string          path to the registry config file (default "/home/ubuntu/.config/helm/registry/config.json")
+      --repository-cache string         path to the file containing cached repository indexes (default "/home/ubuntu/.cache/helm/repository")
+      --repository-config string        path to the file containing repository names and URLs (default "/home/ubuntu/.config/helm/repositories.yaml")
+
+Use "helm [command] --help" for more information about a command.
+```
+
+
+# 
+Install deepfence ThreatMapper Helm
+```
+ helm repo add deepfence https://deepfence-helm-charts.s3.amazonaws.com/threatmapper
+helm repo update
+
+helm install deepfence-agent deepfence/deepfence-agent \
+  --set managementConsoleUrl=54.152.156.120 \
+  --set deepfenceKey=94d9a6b6-9097-4d85-86f4-8132491dd240 \
+  --set image.tag=1.4.1 \
+  --set image.clusterAgentImageTag=1.4.1 \
+  --set clusterName=prod-cluster \
+  --set mountContainerRuntimeSocket.containerdSock=false --set mountContainerRuntimeSocket.dockerSock=true --set mountContainerRuntimeSocket.crioSock=false \
+  --set mountContainerRuntimeSocket.dockerSockPath="/var/run/docker.sock" \
+  --namespace deepfence \
+  --create-namespace
+"deepfence" has been added to your repositories
+Hang tight while we grab the latest from your chart repositories...
+...Successfully got an update from the "deepfence" chart repository
+Update Complete. ⎈Happy Helming!⎈
+NAME: deepfence-agent
+LAST DEPLOYED: Fri Nov  4 17:38:31 2022
+NAMESPACE: deepfence
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+Management console ip address: 54.152.156.120
+
+Check if deepfence-agent daemonset has started:
+  kubectl get pods -n deepfence
+  kubectl describe daemonset -n deepfence
+  kubectl describe deployment -n deepfence
+ubuntu@ip-172-31-1-211:~$ kubectl get pods -n deepfence
+  kubectl describe daemonset -n deepfence
+  kubectl describe deployment -n deepfence
+NAME                                       READY   STATUS              RESTARTS   AGE
+deepfence-agent-k52d7                      0/1     ContainerCreating   0          12s
+deepfence-cluster-agent-7c5fb94d9d-5bgtc   0/1     ContainerCreating   0          12s
+Name:           deepfence-agent
+Selector:       app.kubernetes.io/instance=deepfence-agent,app.kubernetes.io/name=deepfence-agent
+Node-Selector:  kubernetes.io/os=linux
+Labels:         app.kubernetes.io/instance=deepfence-agent
+                app.kubernetes.io/managed-by=Helm
+                app.kubernetes.io/name=deepfence-agent
+                app.kubernetes.io/version=1.4.1
+                helm.sh/chart=deepfence-agent-1.4.7
+Annotations:    deprecated.daemonset.template.generation: 1
+                meta.helm.sh/release-name: deepfence-agent
+                meta.helm.sh/release-namespace: deepfence
+Desired Number of Nodes Scheduled: 1
+Current Number of Nodes Scheduled: 1
+Number of Nodes Scheduled with Up-to-date Pods: 1
+Number of Nodes Scheduled with Available Pods: 0
+Number of Nodes Misscheduled: 0
+Pods Status:  0 Running / 1 Waiting / 0 Succeeded / 0 Failed
+Pod Template:
+  Labels:           app.kubernetes.io/instance=deepfence-agent
+                    app.kubernetes.io/name=deepfence-agent
+  Service Account:  deepfence-agent
+  Containers:
+   deepfence-agent:
+    Image:      deepfenceio/deepfence_agent_ce:1.4.1
+    Port:       <none>
+    Host Port:  <none>
+    Limits:
+      cpu:     1500m
+      memory:  1536Mi
+    Requests:
+      cpu:     150m
+      memory:  512Mi
+    Environment:
+      DEEPFENCE_KEY:                 <set to the key 'deepfence-key' in secret 'deepfence-key'>  Optional: false
+      USER_DEFINED_TAGS:             
+      DF_ENABLE_PROCESS_REPORT:      true
+      DF_ENABLE_CONNECTIONS_REPORT:  true
+      MGMT_CONSOLE_URL:              54.152.156.120
+      MGMT_CONSOLE_PORT:             443
+      DF_KUBERNETES_ON:              Y
+      INSTANCE_ID_SUFFIX:            N
+      DF_CLUSTER_NAME:               prod-cluster
+      AGENT_HOSTNAME:                 (v1:spec.nodeName)
+      SCOPE_HOSTNAME:                prod-cluster-$(AGENT_HOSTNAME)
+      AGENT_POD_NAME:                 (v1:metadata.name)
+      AGENT_POD_NAMESPACE:            (v1:metadata.namespace)
+      DOCKER_SOCKET_PATH:            /var/run/docker.sock
+    Mounts:
+      /fenced/mnt/host from host-fs (ro)
+      /sys/kernel/debug from kernel-sys (rw)
+      /var/log/fenced from fenced-path (rw)
+      /var/log/fenced/compliance from fenced-path-compliance (rw)
+      /var/log/fenced/compliance-scan-logs from fenced-path-compliance-scan-logs (rw)
+      /var/run/docker.sock from docker-sock (rw)
+  Volumes:
+   docker-sock:
+    Type:          HostPath (bare host directory volume)
+    Path:          /var/run/docker.sock
+    HostPathType:  Socket
+   kernel-sys:
+    Type:          HostPath (bare host directory volume)
+    Path:          /sys/kernel/debug
+    HostPathType:  Directory
+   host-fs:
+    Type:          HostPath (bare host directory volume)
+    Path:          /
+    HostPathType:  Directory
+   fenced-path:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:     
+    SizeLimit:  <unset>
+   fenced-path-compliance:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:     
+    SizeLimit:  <unset>
+   fenced-path-compliance-scan-logs:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:     
+    SizeLimit:  <unset>
+Events:
+  Type    Reason            Age   From                  Message
+  ----    ------            ----  ----                  -------
+  Normal  SuccessfulCreate  12s   daemonset-controller  Created pod: deepfence-agent-k52d7
+Name:                   deepfence-cluster-agent
+Namespace:              deepfence
+CreationTimestamp:      Fri, 04 Nov 2022 17:38:31 +0000
+Labels:                 app.kubernetes.io/instance=deepfence-agent
+                        app.kubernetes.io/managed-by=Helm
+                        app.kubernetes.io/name=deepfence-cluster-agent
+                        app.kubernetes.io/version=1.4.1
+                        helm.sh/chart=deepfence-agent-1.4.7
+Annotations:            deployment.kubernetes.io/revision: 1
+                        meta.helm.sh/release-name: deepfence-agent
+                        meta.helm.sh/release-namespace: deepfence
+Selector:               app.kubernetes.io/instance=deepfence-agent,app.kubernetes.io/name=deepfence-cluster-agent
+Replicas:               1 desired | 1 updated | 1 total | 0 available | 1 unavailable
+StrategyType:           RollingUpdate
+MinReadySeconds:        0
+RollingUpdateStrategy:  25% max unavailable, 25% max surge
+Pod Template:
+  Labels:           app.kubernetes.io/instance=deepfence-agent
+                    app.kubernetes.io/name=deepfence-cluster-agent
+  Service Account:  deepfence-agent
+  Containers:
+   deepfence-cluster-agent:
+    Image:      deepfenceio/deepfence_discovery_ce:1.4.1
+    Port:       <none>
+    Host Port:  <none>
+    Args:
+      cluster-agent
+      54.152.156.120
+      443
+    Limits:
+      cpu:     1500m
+      memory:  1536Mi
+    Requests:
+      cpu:     25m
+      memory:  80Mi
+    Environment:
+      DEEPFENCE_KEY:        <set to the key 'deepfence-key' in secret 'deepfence-key'>  Optional: false
+      DF_CLUSTER_NAME:      prod-cluster
+      AGENT_HOSTNAME:        (v1:spec.nodeName)
+      SCOPE_HOSTNAME:       prod-cluster-$(AGENT_HOSTNAME)
+      AGENT_POD_NAME:        (v1:metadata.name)
+      AGENT_POD_NAMESPACE:   (v1:metadata.namespace)
+    Mounts:                 <none>
+  Volumes:                  <none>
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Available      False   MinimumReplicasUnavailable
+  Progressing    True    ReplicaSetUpdated
+OldReplicaSets:  <none>
+NewReplicaSet:   deepfence-cluster-agent-7c5fb94d9d (1/1 replicas created)
+Events:
+  Type    Reason             Age   From                   Message
+  ----    ------             ----  ----                   -------
+  Normal  ScalingReplicaSet  12s   deployment-controller  Scaled up replica set deepfence-cluster-agent-7c5fb94d9d to 1
+ubuntu@ip-172-31-1-211:~$ helm repo add deepfence https://deepfence-helm-charts.s3.amazonaws.com/threatmapper
+helm repo update
+
+helm install deepfence-agent deepfence/deepfence-agent \
+  --set managementConsoleUrl=54.152.156.120 \
+  --set deepfenceKey=94d9a6b6-9097-4d85-86f4-8132491dd240 \
+  --set image.tag=1.4.1 \
+  --set image.clusterAgentImageTag=1.4.1 \
+  --set clusterName=prod-cluster \
+  --set mountContainerRuntimeSocket.containerdSock=false --set mountContainerRuntimeSocket.dockerSock=true --set mountContainerRuntimeSocket.crioSock=false \
+  --set mountContainerRuntimeSocket.dockerSockPath="/var/run/docker.sock" \
+  --namespace deepfence \
+  --create-namespace
+"deepfence" already exists with the same configuration, skipping
+Hang tight while we grab the latest from your chart repositories...
+...Successfully got an update from the "deepfence" chart repository
+Update Complete. ⎈Happy Helming!⎈
+
+```
 
