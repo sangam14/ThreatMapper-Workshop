@@ -568,6 +568,23 @@ https://54.152.156.120/
 
 
 
+# Demo3
+
+
+login to aws account :- console.aws.amazon.com
+
+## Deploy ThreatMapper Helm chart to your Minikube cluster 
+
+
+
+
+
+
+- Create Ubuntu Instance on AWS EC2 
+
+
+
+
 
 
 
