@@ -1180,3 +1180,6 @@ Update Complete. ⎈Happy Helming!⎈
 
 ```
 
+![](./img/step-11.png)
+
+![](./img/step-12.png)
